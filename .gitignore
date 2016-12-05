@@ -1,6 +1,8 @@
 *
 !src
 !src/**
+!ext
+!ext/**
 !.git*
 !.clang-format
 !.travis.yml
