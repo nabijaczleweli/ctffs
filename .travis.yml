@@ -1,0 +1,31 @@
+sudo: false
+language: generic
+cache: apt
+
+matrix:
+  include:
+    - env: CXX=g++-5 CC=gcc-5 DEPLOY=true
+      addons:
+        apt:
+          packages:
+            - g++-5
+          sources: &sources
+            - llvm-toolchain-precise-3.8
+            - ubuntu-toolchain-r-test
+    - env: CXX=clang++-3.8 CC=clang-3.8
+      addons:
+        apt:
+          packages:
+            - clang-3.8
+          sources: *sources
+
+script: make
+
+deploy:
+  provider: releases
+  api_key:
+    secure: asTVK5bOUUw5/RBv5Rk5ZVCRXxah/IYd9bW254Zz8XFBxbNTv3WCeFfvXrCuiGjR8gwRqhSTVzofvxjfAzVTgi+7b5zN+aPP6KA659qiM2sSPHCFNq/3Lfa65vJM7/9aap4kC2BYPJjRERTVwXFccaVwjEXvUcw4ubxd6u9YoK+/jWgZYcghKeOEwp8J8KRWN0OxW5n9WhNfb+2Qgte2RKYRJXTV9zT9bM+7hCA1WHi10CIDLD9UaBogeBbxX2NCer2GlLpcOENTn0BBErAnsO7KY6LI8GRAcea/J34BbtAP97SmSC6lzFIurUs8I+ANDXabEyLGtz/LBrZrr55dAroamA/zqxccdRk5DsZ5p6VwtPK2j/BkJvmMUfJ/1aYuFyHLBC/EuZOzeMaLIBvz5cYZ1rKdp/8aYWWEh1AYFcjnsX2F9TJ6okxcGdbqUHemq1g1XT/17EAQvvCRjJCCni/wZ/ZThPe9+M/lT3sTV+kZoDAQYqNMIVH/ryflOQxfu+jB6qhHipj9M5yUzt43HYVWqRIJxFLCzGtETV8CbPQI8ItHjCnZdG+1jeAMBfja9fDgI3zB1wg3+2tWscExtwzgrwjiCOyT1NdgCZ2I2DxU5t7gImzhXy6IifJjHNIiTneVwgZ9kBlHFLT0+iOiy3EfZ+1bwYsvFsF6DvdgtPM=
+  file: "$HOME/ctffs/out/ctffs"
+  on:
+    tags: true
+    condition: $DEPLOY = true

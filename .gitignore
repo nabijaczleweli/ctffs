@@ -1,0 +1,10 @@
+*
+!src
+!src/**
+!.git*
+!.clang-format
+!.travis.yml
+!*Makefile
+!*.sublime-project
+!LICENSE
+!README.md

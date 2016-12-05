@@ -1,0 +1,38 @@
+{
+	"build_systems":
+	[
+		{
+			"working_dir": "$project_path",
+			"cmd": "make -j8",
+			"name": "Build ctffs"
+		},
+		{
+			"working_dir": "$project_path",
+			"cmd": "make -j8 clean",
+			"name": "Clean ctffs"
+		}
+	],
+	"folders":
+	[
+		{
+			"follow_symlinks": true,
+			"name": "Source",
+			"path": "src"
+		},
+		{
+			"file_include_patterns": [
+				"*Makefile*", "*.yml"
+			],
+			"folder_exclude_patterns": [
+				"*"
+			],
+			"follow_symlinks": true,
+			"name": "Build files",
+			"path": "."
+		}
+	],
+	"settings":
+	{
+		"tab_size": 2
+	}
+}
