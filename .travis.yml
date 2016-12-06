@@ -19,6 +19,9 @@ matrix:
             - clang-3.8
           sources: *sources
 
+before_script:
+  - git submodule update --init --recursive
+
 script: make
 
 deploy:
