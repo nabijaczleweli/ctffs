@@ -23,32 +23,24 @@
 include configMakefile
 
 
-LDDLLS := clap
-LDAR := $(LNCXXAR) $(foreach l,CLAP,-L$(BLDDIR)$(l)) $(foreach dll,$(LDDLLS),-l$(dll))
+LDAR := $(LNCXXAR)
+INCAR := $(foreach l,tclap/include,-isystemext/$(l))
 SOURCES := $(wildcard $(SRCDIR)*.cpp)
 
 
-.PHONY : clean all exe clap
+.PHONY : clean all exe
 
 all : exe
 
 clean :
 	rm -rf $(OUTDIR)
 
-exe : clap $(OUTDIR)ctffs$(EXE)
-clap : $(BLDDIR)CLAP/libclap$(ARCH)
+exe :  $(OUTDIR)ctffs$(EXE)
 
 $(OUTDIR)ctffs$(EXE) : $(subst $(SRCDIR),$(OBJDIR),$(subst .cpp,$(OBJ),$(SOURCES)))
 	$(CXX) $(CXXAR) -o$@ $^ $(PIC) $(LDAR)
 
-$(BLDDIR)CLAP/libclap.a : $(subst ext/CLAP/src/clap,$(BLDDIR)CLAP/obj,$(subst .cpp,$(OBJ),$(wildcard ext/CLAP/src/clap/*.cpp)))
-	$(AR) crs $@ $^
-
 
 $(OBJDIR)%$(OBJ) : $(SRCDIR)%.cpp
 	@mkdir -p $(dir $@)
-	$(CXX) $(CXXAR) -c -o$@ $^
-
-$(BLDDIR)CLAP/obj/%$(OBJ) : ext/CLAP/src/clap/%.cpp
-	@mkdir -p $(dir $@)
-	$(CXX) $(CXXAR) -c -o$@ $^
+	$(CXX) $(CXXAR) $(INCAR) -c -o$@ $^
