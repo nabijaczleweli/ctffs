@@ -21,14 +21,31 @@
 
 
 #include "options.hpp"
+#include <fstream>
 #include <iostream>
+#include <string>
+#include <tclap/CmdLine.h>
 
 
-int main(int argc, const char ** argv) {
-	options opts(argc, argv);
+class config_paths_constraint : public TCLAP::Constraint<std::string> {
+	std::string description() const { return "file exists"; }
 
-	std::cout << "config_paths = {";
-	for(auto && cp : opts.config_paths)
-		std::cout << cp << ", ";
-	std::cout << "}\n";
+	std::string shortID() const { return "config-paths"; }
+
+	bool check(const std::string & value) const { return static_cast<bool>(std::ifstream(value)); }
+};
+
+
+options::options(int argc, const char * const * argv) {
+	try {
+		TCLAP::CmdLine command_line("ctffs -- flat filesystem for text files", ' ', __DATE__ " " __TIME__);
+
+		config_paths_constraint cp_c;
+		TCLAP::UnlabeledMultiArg<std::string> cp("config-paths", "Files specifying filesystem configurations", true, &cp_c, command_line);
+		command_line.parse(argc, argv);
+
+		config_paths = cp.getValue();
+	} catch(const TCLAP::ArgException & ae) {
+		std::cerr << ae.what() << '\n';
+	}
 }

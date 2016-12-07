@@ -20,15 +20,17 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-#include "options.hpp"
-#include <iostream>
+#pragma once
 
 
-int main(int argc, const char ** argv) {
-	options opts(argc, argv);
+#include <string>
+#include <vector>
 
-	std::cout << "config_paths = {";
-	for(auto && cp : opts.config_paths)
-		std::cout << cp << ", ";
-	std::cout << "}\n";
-}
+
+struct options {
+public:
+	std::vector<std::string> config_paths;
+
+
+	options(int argc, const char * const * argv);
+};
