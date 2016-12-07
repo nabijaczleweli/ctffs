@@ -38,7 +38,7 @@ class config_paths_constraint : public TCLAP::Constraint<std::string> {
 
 options::options(int argc, const char * const * argv) {
 	try {
-		TCLAP::CmdLine command_line("ctffs -- flat filesystem for text files", ' ', __DATE__ " " __TIME__);
+		TCLAP::CmdLine command_line("ctffs -- flat filesystem for text files", ' ', CTFFS_VERSION);
 
 		config_paths_constraint cp_c;
 		TCLAP::UnlabeledMultiArg<std::string> cp("config-paths", "Files specifying filesystem configurations", true, &cp_c, command_line);

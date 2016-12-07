@@ -25,6 +25,7 @@ include configMakefile
 
 LDAR := $(LNCXXAR)
 INCAR := $(foreach l,tclap/include,-isystemext/$(l))
+VERAR := $(foreach l,CTFFS,-D$(l)_VERSION='$($(l)_VERSION)')
 SOURCES := $(wildcard $(SRCDIR)*.cpp)
 
 
@@ -43,4 +44,4 @@ $(OUTDIR)ctffs$(EXE) : $(subst $(SRCDIR),$(OBJDIR),$(subst .cpp,$(OBJ),$(SOURCES
 
 $(OBJDIR)%$(OBJ) : $(SRCDIR)%.cpp
 	@mkdir -p $(dir $@)
-	$(CXX) $(CXXAR) $(INCAR) -c -o$@ $^
+	$(CXX) $(CXXAR) $(INCAR) $(VERAR) -c -o$@ $^

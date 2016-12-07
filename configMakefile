@@ -34,6 +34,8 @@ else
 	LNCXXAR :=
 endif
 
+CTFFS_VERSION := "$(patsubst v%,%,$(shell git describe --tags --abbrev=0))"
+
 OBJ := .o
 ARCH := .a
 AR := ar
