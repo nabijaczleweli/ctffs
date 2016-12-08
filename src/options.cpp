@@ -24,6 +24,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <cstdio>
 #include <tclap/CmdLine.h>
 
 

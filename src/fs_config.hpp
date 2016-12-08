@@ -20,40 +20,19 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-#include "fs_config.hpp"
-#include "options.hpp"
-#include <fstream>
-#include <iostream>
-#include <vector>
+#pragma once
 
 
-int main(int argc, const char ** argv) {
-	options opts(argc, argv);
+#include <istream>
+#include <tuple>
+#include <string>
 
-	std::cout << "config_paths = {";
-	for(auto && cp : opts.config_paths)
-		std::cout << cp << ", ";
-	std::cout << "}\n";
 
-	std::vector<fs_config> configs;
-	configs.reserve(opts.config_paths.size());
-	for(auto && cp : opts.config_paths) {
-		std::ifstream cfg_f(cp);
-		auto cfg = fs_config::from(cfg_f);
+struct fs_config {
+public:
+	std::string mount_point;
+	std::string db_location;
 
-		if(std::get<int>(cfg) == 0) {
-			configs.emplace_back(std::move(std::get<fs_config>(cfg)));
-		} else {
-			std::cerr << "Failed to parse config file \"" << cp << "\": " << std::get<std::string>(cfg) << '\n';
-			return std::get<int>(cfg);
-		}
-	}
 
-	std::cout << "configs = {\n";
-	for(auto && cfg : configs)
-		std::cout << "  {\n"
-		          << "    mount_point = \"" << cfg.mount_point << "\"\n"  //
-		          << "    db_location = \"" << cfg.db_location << "\"\n"  //
-		          << "  }, \n";
-	std::cout << "}\n";
-}
+	static std::tuple<fs_config, int, std::string> from(std::istream & from);
+};

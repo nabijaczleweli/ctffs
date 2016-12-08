@@ -23,8 +23,8 @@
 include configMakefile
 
 
-LDAR := $(LNCXXAR)
-INCAR := $(foreach l,tclap/include,-isystemext/$(l))
+LDAR := $(LNCXXAR) $(shell pkg-config fuse --libs-only-l --libs-only-L)
+INCAR := $(foreach l,tclap cpptoml,-isystemext/$(l)/include)
 VERAR := $(foreach l,CTFFS,-D$(l)_VERSION='$($(l)_VERSION)')
 SOURCES := $(wildcard $(SRCDIR)*.cpp)
 
@@ -44,4 +44,4 @@ $(OUTDIR)ctffs$(EXE) : $(subst $(SRCDIR),$(OBJDIR),$(subst .cpp,$(OBJ),$(SOURCES
 
 $(OBJDIR)%$(OBJ) : $(SRCDIR)%.cpp
 	@mkdir -p $(dir $@)
-	$(CXX) $(CXXAR) $(INCAR) $(VERAR) -c -o$@ $^
+	$(CXX) $(CXXAR) $(INCAR) $(VERAR) -D_FILE_OFFSET_BITS=$(BITNESS) -c -o$@ $^
