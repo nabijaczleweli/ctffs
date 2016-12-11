@@ -44,4 +44,4 @@ $(OUTDIR)ctffs$(EXE) : $(subst $(SRCDIR),$(OBJDIR),$(subst .cpp,$(OBJ),$(SOURCES
 
 $(OBJDIR)%$(OBJ) : $(SRCDIR)%.cpp
 	@mkdir -p $(dir $@)
-	$(CXX) $(CXXAR) $(INCAR) $(VERAR) -D_FILE_OFFSET_BITS=$(BITNESS) -c -o$@ $^
+	$(CXX) $(CXXAR) $(INCAR) $(VERAR) -D_FILE_OFFSET_BITS=$(BITNESS) -DFUSE_USE_VERSION=26 -c -o$@ $^
